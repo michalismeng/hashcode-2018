@@ -37,13 +37,15 @@ double cost(I64 x,I64 y,I64 t,I64 r)
 	I64 carry_time = dist(people[r].a,people[r].b,people[r].x,people[r].y);
 	//if on time
 	I64 finish_time = max(people[r].s,t + dist(x,y,people[r].a,people[r].b)) + carry_time;
+
 	if(finish_time > people[r].f || finish_time > T)
 		return 0;
 	if(t + dist(x,y,people[r].a,people[r].b) <= people[r].s)//?
 		points += B;
 	points += carry_time;
-	I64 total_time = finish_time - t;
+	I64 total_time = finish_time - carry_time - t+1;
 	//printf("points = %lld,tot_time = %lld,finish_time = %lld\n",points,total_time,finish_time);
+	assert(total_time != 0);
 	return ((double)points)/((double)total_time);
 }
 
@@ -55,6 +57,7 @@ I64 find_ride(car v)
 	for(a = 0;a < N;a++){
 		if(complete[a] == 0){
 			double tmp = cost(v.x,v.y,v.end_time,a);
+			assert(tmp >= 0);
 			//printf("cost = %lf\n",tmp);
 			if(tmp > score){
 				r = a;
@@ -93,7 +96,7 @@ int main(void)
 			res[v.id].push_back(r);
 			//push_new
 			I64 carry_time = dist(people[r].a,people[r].b,people[r].x,people[r].y);
-			v.end_time = max(people[r].s,v.end_time + dist(v.x,v.y,people[r].a,people[r].b))-v.end_time + carry_time;
+			v.end_time = max(people[r].s,v.end_time + dist(v.x,v.y,people[r].a,people[r].b)) + carry_time;
 			v.x = people[r].x;
 			v.y = people[r].y;
 			Q.push(v);
