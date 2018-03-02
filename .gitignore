@@ -5,7 +5,6 @@
 
 #UNIX
 a.out
-*.json
 
 # User-specific files
 *.suo

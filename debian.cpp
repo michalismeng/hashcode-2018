@@ -19,7 +19,7 @@ typedef struct{
 
 bool operator<(const car& a,const car& b)
 {
-	return a.end_time > b.end_time;//min???
+	return a.end_time > b.end_time;
 }
 
 priority_queue<car> Q;
