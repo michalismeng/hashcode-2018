@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 #define I64 long long
 #define MAX_N 10005
-#define CARRY dist(people[r].a,people[r].b,people[r].x,people[r].y);
-#define TOT_TIME max(people[r].s,t + dist(x,y,people[r].a,people[r].b))-t + carry_time;
 using namespace std;
 
 I64 R,C,F,N,B,T;
@@ -35,15 +33,17 @@ double cost(I64 x,I64 y,I64 t,I64 r)
 {
 	I64 points = 0;
 	I64 carry_time = dist(people[r].a,people[r].b,people[r].x,people[r].y);
-	if(carry_time > 7000)
-		return 0;
+
 	//if on time
 	I64 finish_time = max(people[r].s,t + dist(x,y,people[r].a,people[r].b)) + carry_time;
 
 	if(finish_time > people[r].f || finish_time > T)
 		return 0;
-	if(t + dist(x,y,people[r].a,people[r].b) == people[r].s)//?
+	if(t + dist(x,y,people[r].a,people[r].b) <= people[r].s)//?
 		points += 10*B;
+	if(carry_time > 3000 && finish_time < T - 10)
+		points -= 6*carry_time/7;
+
 	points += carry_time;
 	I64 total_time = finish_time - carry_time - t+1;
 	//printf("points = %lld,tot_time = %lld,finish_time = %lld\n",points,total_time,finish_time);
